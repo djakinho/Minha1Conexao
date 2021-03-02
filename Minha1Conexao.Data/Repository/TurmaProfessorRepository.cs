@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Minha1Conexao.Data.Interface;
 using Minha1Conexao.Domain;
 using Minha1Conexao.Domain.Model;
 using System;
@@ -8,11 +9,15 @@ using System.Text;
 
 namespace Minha1Conexao.Data.Repository
 {
-    public class TurmaProfessorRepository : BaseRepository<TurmaProfessor>
+    public class TurmaProfessorRepository : BaseRepository<TurmaProfessor>, ITurmaProfessorRepository
     {
+        public TurmaProfessorRepository(Contexto contexto) : base(contexto)
+        {
+
+        }
         public List<TurmaProfessor> SelecionarTudoCompleto()
         {
-            return contexto.TurmaProfessor
+            return _contexto.TurmaProfessor
                 .Include(x => x.Professor)
                 .Include(x => x.Turma)
                 .ToList();

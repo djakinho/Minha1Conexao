@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Minha1Conexao.Data.Interface;
 using Minha1Conexao.Data.Repository;
 using Minha1Conexao.Domain.Model;
 using System.Collections.Generic;
@@ -9,44 +10,44 @@ namespace Minha1Conexao.Controllers
     [ApiController]
     public class TurmaController : ControllerBase
     {
-        private readonly TurmaRepository repo;
+        private readonly ITurmaRepository _repo;
 
-        public TurmaController()
+        public TurmaController(ITurmaRepository repo)
         {
-            repo = new TurmaRepository();
+            _repo = repo;
         }
 
         [HttpGet]
         public IEnumerable<Turma> Get()
         {
-            return repo.SelecionarTudo();
+            return _repo.SelecionarTudo();
         }
 
         [HttpGet("{id}")]
         public Turma Get(int id)
         {
-            return repo.Selecionar(id);
+            return _repo.Selecionar(id);
         }
 
         [HttpPost]
         public IEnumerable<Turma> Post([FromBody] Turma turma)
         {
-            repo.Incluir(turma);
+            _repo.Incluir(turma);
 
-            return repo.SelecionarTudo();
+            return _repo.SelecionarTudo();
         }
         [HttpPut]
         public IEnumerable<Turma> Put([FromBody] Turma turma)
         {
-            repo.Alterar(turma);
-            return repo.SelecionarTudo();
+            _repo.Alterar(turma);
+            return _repo.SelecionarTudo();
         }
 
         [HttpDelete("{id}")]
         public IEnumerable<Turma> Delete(int id)
         {
-            repo.Excluir(id);
-            return repo.SelecionarTudo();
+            _repo.Excluir(id);
+            return _repo.SelecionarTudo();
         }
     }
 }

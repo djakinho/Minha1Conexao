@@ -14,11 +14,15 @@ namespace Minha1Conexao.Data
         public DbSet<TurmaProfessor> TurmaProfessor { get; set; }
         public DbSet<TurmaAluno> TurmaAluno { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public Contexto(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-7LVNARC\\SQLEXPRESS; Database=Minha1Conexao; Trusted_Connection=True");
-            base.OnConfiguring(optionsBuilder);
+
         }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=DESKTOP-7LVNARC\\SQLEXPRESS; Database=Minha1Conexao; Trusted_Connection=True");
+        //    base.OnConfiguring(optionsBuilder);
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

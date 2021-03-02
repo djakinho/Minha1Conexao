@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Minha1Conexao.Data.Interface;
 using Minha1Conexao.Data.Repository;
 using Minha1Conexao.Domain.Model;
 using System.Collections.Generic;
@@ -9,45 +10,45 @@ namespace Minha1Conexao.Controllers
     [ApiController]
     public class TurmaAlunoController : ControllerBase
     {
-        private readonly TurmaAlunoRepository repo;
+        private readonly ITurmaAlunoRepository _repo;
 
-        public TurmaAlunoController()
+        public TurmaAlunoController(ITurmaAlunoRepository repo)
         {
-            repo = new TurmaAlunoRepository();
+            _repo = repo;
         }
 
         [HttpGet]
         public IEnumerable<TurmaAluno> Get()
         {
-            return repo.SelecionarTudoCompleto();
+            return _repo.SelecionarTudoCompleto();
         }
 
         [HttpGet("{id}")]
         public TurmaAluno Get(int id)
         {
-            return repo.Selecionar(id);
+            return _repo.Selecionar(id);
         }
 
         [HttpPost]
         public IEnumerable<TurmaAluno> Post([FromBody] TurmaAluno ta)
         {
-            repo.Incluir(ta);
+            _repo.Incluir(ta);
 
-            return repo.SelecionarTudo();
+            return _repo.SelecionarTudo();
         }
 
         [HttpPut]
         public IEnumerable<TurmaAluno> Put([FromBody] TurmaAluno ta)
         {
-            repo.Alterar(ta);
-            return repo.SelecionarTudo();
+            _repo.Alterar(ta);
+            return _repo.SelecionarTudo();
         }
 
         [HttpDelete("{id}")]
         public IEnumerable<TurmaAluno> Delete(int id)
         {
-            repo.Excluir(id);
-            return repo.SelecionarTudo();
+            _repo.Excluir(id);
+            return _repo.SelecionarTudo();
         }
     }
 }

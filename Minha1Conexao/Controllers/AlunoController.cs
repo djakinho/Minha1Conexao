@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Minha1Conexao.Data.Interface;
 using Minha1Conexao.Data.Repository;
 using Minha1Conexao.Domain;
 using System.Collections.Generic;
@@ -9,44 +10,45 @@ namespace Minha1Conexao.Controllers
     [ApiController]
     public class AlunoController : ControllerBase
     {
-        private readonly AlunoRepository repo;
+        //private readonly IBaseRepository<Aluno> baseRepository;
+        private readonly IAlunoRepository _repo;
 
-        public AlunoController()
+        public AlunoController(IAlunoRepository repo)
         {
-            repo = new AlunoRepository();
+            _repo = repo;
         }
 
         [HttpGet]
         public IEnumerable<Aluno> Get()
         {
-            return repo.SelecionarTudo();
+            return _repo.SelecionarTudo();
         }
 
         [HttpGet("{id}")]
         public Aluno Get(int id)
         {
-            return repo.Selecionar(id);
+            return _repo.Selecionar(id);
         }
 
         [HttpPost]
         public IEnumerable<Aluno> Post([FromBody] Aluno aluno)
         {
-            repo.Incluir(aluno);
+            _repo.Incluir(aluno);
 
-            return repo.SelecionarTudo();
+            return _repo.SelecionarTudo();
         }
         [HttpPut("{id}")]
         public IEnumerable<Aluno> Put(int id, [FromBody] Aluno aluno)
         {
-            repo.Alterar(aluno);
-            return repo.SelecionarTudo();
+            _repo.Alterar(aluno);
+            return _repo.SelecionarTudo();
         }
 
         [HttpDelete("{id}")]
         public IEnumerable<Aluno> Delete(int id)
         {
-            repo.Excluir(id);
-            return repo.SelecionarTudo();
+            _repo.Excluir(id);
+            return _repo.SelecionarTudo();
         }
     }
 }
