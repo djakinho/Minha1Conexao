@@ -24,6 +24,11 @@ namespace Minha1Conexao.Controllers
             return _repo.SelecionarTudo();
         }
 
+        /// <summary>
+        /// AQUI ESTA O SEU XML
+        /// </summary>
+        /// <param name="id"> O parâmetro id do aluno necessário</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public Aluno Get(int id)
         {
