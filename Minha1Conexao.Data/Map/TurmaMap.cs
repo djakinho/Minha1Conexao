@@ -15,6 +15,8 @@ namespace Minha1Conexao.Data.Map
 
             builder.HasKey(x => x.Id);
 
+            builder.HasMany(x => x.Alunos);
+
             builder.Property(x => x.Nome)
                .HasColumnType("varchar(100)")
                .IsRequired();

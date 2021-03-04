@@ -17,18 +17,25 @@ namespace Minha1Conexao.Controllers
         {
             _repo = repo;
         }
-
+        /// <summary>
+        /// Seleciona todos os Alunos
+        /// </summary>
+        /// <returns>Retorna uma lista de Alunos</returns>
+        [ProducesResponseType(400)]
         [HttpGet]
-        public IEnumerable<Aluno> Get()
+        public IActionResult Get()
         {
-            return _repo.SelecionarTudo();
+            var minhaVar = _repo.SelecionarTudo();
+            if (minhaVar == null)
+                return NotFound(new { mensagem = "Não foi possível encontrar nenhum Aluno" });
+            return Ok(minhaVar);
         }
 
         /// <summary>
-        /// AQUI ESTA O SEU XML
+        /// Seleciona o aluno pelo Id
         /// </summary>
         /// <param name="id"> O parâmetro id do aluno necessário</param>
-        /// <returns></returns>
+        /// <returns>Retorna o objeto Aluno</returns>
         [HttpGet("{id}")]
         public Aluno Get(int id)
         {
