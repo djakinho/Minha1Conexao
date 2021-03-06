@@ -1,20 +1,25 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Minha1Conexao.Data;
 using Minha1Conexao.Data.Interface;
 using Minha1Conexao.Data.Repository;
+using Minha1Conexao.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Minha1Conexao
@@ -39,7 +44,7 @@ namespace Minha1Conexao
             services.AddScoped<IProfessorRepository, ProfessorRepository>();
             services.AddScoped<ITurmaRepository, TurmaRepository>();
             services.AddScoped<ITurmaProfessorRepository, TurmaProfessorRepository>();
-            services.AddScoped<ITurmaAlunoRepository, TurmaAlunoRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
             services.AddDbContext<Contexto>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("MinhaConexao")));
@@ -65,6 +70,24 @@ namespace Minha1Conexao
                 c.IncludeXmlComments(xmlPath);
 
             });
+
+            var key = Encoding.ASCII.GetBytes(Configuracoes.Secret);
+            services.AddAuthentication(a =>
+            {
+                a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(b =>
+            {
+                b.RequireHttpsMetadata = false;
+                b.SaveToken = true;
+                b.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +106,7 @@ namespace Minha1Conexao
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

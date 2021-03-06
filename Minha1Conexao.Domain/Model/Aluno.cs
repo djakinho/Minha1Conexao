@@ -8,7 +8,6 @@ namespace Minha1Conexao.Domain
         public int Id { get; set; }
         public string Nome { get; set; }
         public bool Ativo { get; set; }
-        public List<TurmaAluno> TurmaAluno { get; set; }
         public int IdTurma { get; set; }
         public Turma Turma { get; set; }
     }

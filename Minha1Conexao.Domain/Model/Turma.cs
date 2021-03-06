@@ -8,7 +8,6 @@ namespace Minha1Conexao.Domain.Model
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public List<TurmaProfessor> TurmaProfessor { get; set; }
-        public List<TurmaAluno> TurmaAluno { get; set; }
         public List<Aluno> Alunos { get; set; }
     }
 }

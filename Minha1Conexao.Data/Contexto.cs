@@ -12,7 +12,7 @@ namespace Minha1Conexao.Data
         public DbSet<Professor> Professor { get; set; }
         public DbSet<Turma> Turma { get; set; }
         public DbSet<TurmaProfessor> TurmaProfessor { get; set; }
-        public DbSet<TurmaAluno> TurmaAluno { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
 
         public Contexto(DbContextOptions options) : base(options)
         {
@@ -30,7 +30,7 @@ namespace Minha1Conexao.Data
             modelBuilder.ApplyConfiguration(new ProfessorMap());
             modelBuilder.ApplyConfiguration(new TurmaMap());
             modelBuilder.ApplyConfiguration(new TurmaProfessorMap());
-            modelBuilder.ApplyConfiguration(new TurmaAlunoMap());
+            modelBuilder.ApplyConfiguration(new UsuarioMap());
 
             base.OnModelCreating(modelBuilder);
         }

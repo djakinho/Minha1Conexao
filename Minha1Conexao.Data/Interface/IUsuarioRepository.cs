@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Minha1Conexao.Data.Interface
 {
-    public interface ITurmaAlunoRepository : IBaseRepository<TurmaAluno>
+    public interface IUsuarioRepository : IBaseRepository<Usuario>
     {
-        List<TurmaAluno> SelecionarTudoCompleto();
+        Usuario SelecionarPorNomeESenha(string nome, string senha);
     }
 }

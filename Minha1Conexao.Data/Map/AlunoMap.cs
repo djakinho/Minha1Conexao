@@ -13,17 +13,16 @@ namespace Minha1Conexao.Data.Map
 
             builder.HasKey(x => x.Id);
 
-            builder
-            .HasOne(a => a.Turma)
-            .WithMany(t => t.Alunos)
-            .HasForeignKey(a => a.IdTurma);
-
             builder.Property(x => x.Nome)
                 .HasColumnType("varchar(150)")
                 .IsRequired();
 
             builder.Property(x => x.Ativo)
                 .IsRequired();
+
+            builder.HasOne(x => x.Turma)
+                .WithMany(x => x.Alunos)
+                .HasForeignKey(x => x.IdTurma);
         }
     }
 }

@@ -9,8 +9,8 @@ using Minha1Conexao.Data;
 namespace Minha1Conexao.Data.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20210227182703_addTurmaAluno")]
-    partial class addTurmaAluno
+    [Migration("20210306151225_AlunoMapChange")]
+    partial class AlunoMapChange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,11 +30,16 @@ namespace Minha1Conexao.Data.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
 
+                    b.Property<int>("IdTurma")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(150)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdTurma");
 
                     b.ToTable("Aluno");
                 });
@@ -58,28 +63,6 @@ namespace Minha1Conexao.Data.Migrations
                     b.ToTable("Turma");
                 });
 
-            modelBuilder.Entity("Minha1Conexao.Domain.Model.TurmaAluno", b =>
-                {
-                    b.Property<int>("IdAluno")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdTurma")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("IdAluno", "IdTurma");
-
-                    b.HasIndex("IdTurma");
-
-                    b.ToTable("TurmaAluno");
-                });
-
             modelBuilder.Entity("Minha1Conexao.Domain.Model.TurmaProfessor", b =>
                 {
                     b.Property<int>("IdProfessor")
@@ -100,6 +83,30 @@ namespace Minha1Conexao.Data.Migrations
                     b.HasIndex("IdTurma");
 
                     b.ToTable("TurmaProfessor");
+                });
+
+            modelBuilder.Entity("Minha1Conexao.Domain.Model.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("varchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("Minha1Conexao.Domain.Professor", b =>
@@ -134,21 +141,13 @@ namespace Minha1Conexao.Data.Migrations
                     b.ToTable("Professor");
                 });
 
-            modelBuilder.Entity("Minha1Conexao.Domain.Model.TurmaAluno", b =>
+            modelBuilder.Entity("Minha1Conexao.Domain.Aluno", b =>
                 {
-                    b.HasOne("Minha1Conexao.Domain.Aluno", "Aluno")
-                        .WithMany("TurmaAluno")
-                        .HasForeignKey("IdAluno")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Minha1Conexao.Domain.Model.Turma", "Turma")
-                        .WithMany("TurmaAluno")
+                        .WithMany("Alunos")
                         .HasForeignKey("IdTurma")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Aluno");
 
                     b.Navigation("Turma");
                 });
@@ -172,14 +171,9 @@ namespace Minha1Conexao.Data.Migrations
                     b.Navigation("Turma");
                 });
 
-            modelBuilder.Entity("Minha1Conexao.Domain.Aluno", b =>
-                {
-                    b.Navigation("TurmaAluno");
-                });
-
             modelBuilder.Entity("Minha1Conexao.Domain.Model.Turma", b =>
                 {
-                    b.Navigation("TurmaAluno");
+                    b.Navigation("Alunos");
 
                     b.Navigation("TurmaProfessor");
                 });
