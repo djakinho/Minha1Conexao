@@ -9,7 +9,7 @@ using Minha1Conexao.Data;
 namespace Minha1Conexao.Data.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20210306151225_AlunoMapChange")]
+    [Migration("20210306163246_AlunoMapChange")]
     partial class AlunoMapChange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

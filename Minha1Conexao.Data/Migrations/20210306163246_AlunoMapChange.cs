@@ -2,7 +2,7 @@
 
 namespace Minha1Conexao.Data.Migrations
 {
-    public partial class AlunoMapMigration_Correct : Migration
+    public partial class AlunoMapChange : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,11 +60,18 @@ namespace Minha1Conexao.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "varchar(150)", nullable: false),
-                    Ativo = table.Column<bool>(type: "bit", nullable: false)
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
+                    IdTurma = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Aluno", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Aluno_Turma_IdTurma",
+                        column: x => x.IdTurma,
+                        principalTable: "Turma",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,9 +101,9 @@ namespace Minha1Conexao.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Aluno_TurmaId",
+                name: "IX_Aluno_IdTurma",
                 table: "Aluno",
-                column: "TurmaId");
+                column: "IdTurma");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TurmaProfessor_IdTurma",
